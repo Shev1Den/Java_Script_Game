@@ -100,7 +100,7 @@ export class Player {
 
         }
 
-        if(this.x > warriorEnemy.x && 
+        if( this.x > warriorEnemy.x && 
             this.x - warriorEnemy.x + warriorEnemy.width*1.5 < 320 &&
             this.x - warriorEnemy.x + warriorEnemy.width*1.5 > warriorEnemy.width*1.5 &&
             this.currentState.state == 'ATTACK_1_LEFT' &&
