@@ -75,7 +75,7 @@ export class Player {
         const warriorEnemy = this.game.enemies[0];
         const warriorStates = states;
 
-        if(this.x < warriorEnemy.x && 
+        if( this.x < warriorEnemy.x && 
             this.x + this.width*1.25 - warriorEnemy.x > 85 &&
             this.x + this.width*1.25 - warriorEnemy.x < this.width*1.25 &&
             this.currentState.state == 'ATTACK_1_RIGHT' &&

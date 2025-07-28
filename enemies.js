@@ -60,9 +60,13 @@ export class SkeletonWarrior extends Enemy {
     }
     update(deltaTime) {
         console.log(this.currentState)
+        console.log(this.game.player.currentState.state)
+        console.log(this.game.player.currentState.state == 'JUMP_RIGHT')
+        console.log(this.x)
+        console.log(this.game.player.x - this.x)
         console.log(this.speed)
-        // console.log(-((2 * 0.6) * this.game.player.speed))
-        console.log(this.frameX)
+        // console.log(-((2 * 0.6) * 3))
+        // console.log(this.frameX)
         // console.log(this.reverseFrame)
         // console.log(this.checkerFrame)
         if (this.frameTimer >= this.intervalFrame) {
@@ -97,6 +101,32 @@ export class SkeletonWarrior extends Enemy {
         else this.stateTimer = 0;
 
           this.currentState.handleInput()
+
+        if (this.game.player.x < this.x &&
+            (
+                this.game.enemies[0].currentState.state == 'ATTACK_1_LEFT' ||
+                this.game.enemies[0].currentState.state == 'ATTACK_2_LEFT' ||
+                this.game.enemies[0].currentState.state == 'ATTACK_3_LEFT'
+            )
+        ) {
+            if (this.game.player.currentState.state == 'RUN_RIGHT') this.speed = ((2 * 0.6) * this.game.player.speed)
+            if (this.game.player.currentState.state == 'WALK_RIGHT') this.speed = ((2 * 0.6) * this.game.player.speed)
+            if (this.game.player.currentState.state == 'JUMP_RIGHT') this.speed = ((2 * 0.6) * this.game.player.speed)
+            if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.speed = ((2 * 0.6) * this.game.player.speed)
+        }
+
+        if (this.game.player.x > this.x &&
+            (
+                this.game.enemies[0].currentState.state == 'ATTACK_1_LEFT' ||
+                this.game.enemies[0].currentState.state == 'ATTACK_2_LEFT' ||
+                this.game.enemies[0].currentState.state == 'ATTACK_3_LEFT'
+            )
+        ) {
+            if (this.game.player.currentState.state == 'RUN_RIGHT') this.speed = -((2 * 0.6) * this.game.player.speed)
+            if (this.game.player.currentState.state == 'WALK_RIGHT') this.speed = -((2 * 0.6) * this.game.player.speed)
+            if (this.game.player.currentState.state == 'JUMP_RIGHT') this.speed = -((2 * 0.6) * this.game.player.speed)
+            if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.speed = -((2 * 0.6) * this.game.player.speed)
+        }
  
         if (this.game.player.x < this.x) this.x += -this.speed;
         if (this.game.player.x > this.x) this.x += this.speed;

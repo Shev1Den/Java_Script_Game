@@ -32,9 +32,10 @@ export class WarriorIdleLeft extends State {
         this.game.enemies[0].image = document.getElementById('warriorIdleLeft')
         this.game.enemies[0].maxFrame = 6;
         this.game.enemies[0].frameX = this.game.enemies[0].maxFrame;
+        this.game.enemies[0].speed = 0
         this.game.enemies[0].reverseFrame = true;
         this.game.enemies[0].speed = 0;
-        this.game.enemies[0].checkIn = false;
+        this.game.enemies[0].checkIn = true;
     }
     handleInput() {
         if(this.game.enemies[0].stateTimer >= this.game.enemies[0].stateInterval) {
@@ -43,21 +44,9 @@ export class WarriorIdleLeft extends State {
         if(this.game.player.x - this.game.enemies[0].x > -500 && this.game.player.x - this.game.enemies[0].x < -this.game.player.width*1.25 && this.game.player.x < this.game.enemies[0].x) this.game.enemies[0].setState(states.WALK_LEFT)
         if(this.game.player.x - this.game.enemies[0].x < 500 && this.game.player.x - this.game.enemies[0].x >  this.game.enemies[0].width && this.game.player.x > this.game.enemies[0].x) this.game.enemies[0].setState(states.WALK_RIGHT)
         if(this.game.player.x - this.game.enemies[0].x < -500 && this.game.player.x < this.game.enemies[0].x) this.game.enemies[0].setState(states.RUN_LEFT)
-    
-        if (this.game.player.x < this.x) {
-            if (this.game.player.currentState.state == 'RUN_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'WALK_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed);
-            if (this.game.player.currentState.state == 'JUMP_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-        }
 
-        if (this.game.player.x > this.x) {
-            if (this.game.player.currentState.state == 'RUN_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'WALK_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'JUMP_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
         }
-        }
+   
 }
 
 export class WarriorIdleRight extends State {
@@ -175,27 +164,18 @@ export class WarriorAttack1Left extends State {
         this.game.enemies[0].frameX = this.game.enemies[0].maxFrame;
         this.game.enemies[0].reverseFrame = true;
         this.game.enemies[0].frameX = 0;
+        this.game.enemies[0].speed = 0
         this.game.enemies[0].checkIn = true
         this.game.enemies[0].checkerFrame = 0
 
-         if (this.game.player.x < this.x) {
-            if (this.game.player.currentState.state == 'RUN_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'WALK_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'JUMP_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-        }
-
-        if (this.game.player.x > this.x) {
-            if (this.game.player.currentState.state == 'RUN_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'WALK_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'JUMP_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-        }
+        
+       
 
     }
     handleInput() {
-        if (this.game.enemies[0].checkerFrame == 1) this.game.enemies[0].setState(states.ATTACK_2_LEFT)
+        if (this.game.enemies[0].checkerFrame == 2) this.game.enemies[0].setState(states.ATTACK_2_LEFT)
         }
+   
 }
 
 export class WarriorAttack1Right extends State {
@@ -227,30 +207,15 @@ export class WarriorAttack2Left extends State {
         this.game.enemies[0].frameX = this.game.enemies[0].maxFrame;
         this.game.enemies[0].reverseFrame = true;
         this.game.enemies[0].frameX = 0;
+        this.game.enemies[0].speed = 0
         this.game.enemies[0].checkIn = true
         this.game.enemies[0].checkerFrame = 0
 
-        if (this.game.player.x < this.x) {
-           if (this.game.player.currentState.state == 'RUN_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'WALK_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'JUMP_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-        }
-
-        if (this.game.player.x > this.x) {
-            if (this.game.player.currentState.state == 'RUN_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'WALK_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'JUMP_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-        }
-
-    
-
-
     }
     handleInput() {
-        if (this.game.enemies[0].checkerFrame == 1) this.game.enemies[0].setState(states.ATTACK_3_LEFT)
+        if (this.game.enemies[0].checkerFrame == 2) this.game.enemies[0].setState(states.ATTACK_3_LEFT)
         }
+   
 }
 
 export class WarriorAttack2Right extends State {
@@ -269,7 +234,6 @@ export class WarriorAttack2Right extends State {
     }
     handleInput() {
         if (this.game.enemies[0].checkerFrame == 1) this.game.enemies[0].setState(states.ATTACK_3_RIGHT)
-
     }
 }
 
@@ -283,30 +247,15 @@ export class WarriorAttack3Left extends State {
         this.game.enemies[0].frameX = this.game.enemies[0].maxFrame;
         this.game.enemies[0].reverseFrame = true;
         this.game.enemies[0].frameX = 0;
+        this.game.enemies[0].speed = 0
         this.game.enemies[0].checkIn = true;
         this.game.enemies[0].checkerFrame = 0;
 
-        if (this.game.player.x < this.x) {
-            if (this.game.player.currentState.state == 'RUN_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'WALK_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'JUMP_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.game.enemies[0].speed = ((2 * 0.6) * this.game.player.speed)
-        }
-
-        if (this.game.player.x > this.x) {
-            if (this.game.player.currentState.state == 'RUN_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'WALK_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'JUMP_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-            if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.game.enemies[0].speed = -((2 * 0.6) * this.game.player.speed)
-        }
-
-       
-  
-
     }
     handleInput() {
-        if(this.game.enemies[0].checkerFrame == 1) this.game.enemies[0].setState(states.IDLE_LEFT)
+        if(this.game.enemies[0].checkerFrame == 2) this.game.enemies[0].setState(states.IDLE_LEFT)
         }
+   
 }
 
 export class WarriorAttack3Right extends State {
