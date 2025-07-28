@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Werewolf 2d Game</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="assets">
+      <!-- Player Assets -->
+     <div class="player__assets">
+        <img id="playerIdleRight" src="./assets/player/Idle_right.png" />
+        <img id="playerIdleLeft" src="./assets/player/Idle_left.png" />
+  
+        <img id="playerWalkRight" src="./assets/player/walk_right.png" />
+        <img id="playerWalkLeft" src="./assets/player/walk_left.png" />
+  
+        <img id="playerRunRight" src="./assets/player/Run_right.png" />
+        <img id="playerRunLeft" src="./assets/player/Run_left.png" />
+  
+        <img id="playerJumpRight" src="./assets/player/Jump_Right.png" />
+        <img id="playerJumpLeft" src="./assets/player/Jump_Left.png" />
+  
+        <img id="playerAttack1Right" src="./assets/player/Attack_1_Right.png" />
+        <img id="playerAttack1Left" src="./assets/player/Attack_1_Left.png" />
+  
+        <img id="playerAttack2Right" src="./assets/player/Attack_2_Right.png" />
+        <img id="playerAttack2Left" src="./assets/player/Attack_2_Left.png" />
+  
+        <img id="playerAttack3Right" src="./assets/player/Attack_3_Right.png" />
+        <img id="playerAttack3Left" src="./assets/player/Attack_3_Left.png" />
+  
+        <img id="playerHurtRight" src="./assets/player/Hurt_Right.png" />
+        <img id="playerHurtLeft" src="./assets/player/Hurt_Left.png" />
+  
+        <img id="playerDeadRight" src="./assets/player/Dead_Right.png" />
+        <img id="playerDeadLeft" src="./assets/player/Dead_Left.png" />
+  
+        <img
+          id="playerRunAttackRight"
+          src="./assets/player/Run+Attack_Right.png"
+        />
+        <img id="playerRunAttackLeft" src="./assets/player/Run+Attack_Left.png" />
+     </div>
+
+      <!-- Background Assets -->
+    <div class="background__layers">
+        <img id="layer8" src="./assets/backgrounds/fireflys.png" />
+        <img id="layer6" src="./assets/backgrounds/grass&road.png" />
+        <img id="layer4" src="./assets/backgrounds/grasses.png" />
+        <img id="layer2" src="./assets/backgrounds/jungle_bg.png" />
+        <img id="layer5" src="./assets/backgrounds/lianas.png" />
+        <img id="layer1" src="./assets/backgrounds/sky.png" />
+        <img id="layer7" src="./assets/backgrounds/tree_face.png" />
+        <img id="layer3" src="./assets/backgrounds/trees&bushes.png" />
+    </div>
+
+      <!-- Enemy Assets -->
+
+      <!-- Enemy 1 Skeleton Warrior-->
+      <div class="skeleton__warrior">
+        <img
+          id="warriorAttack_1_Left"
+          src="./assets/enemies/Skeleton_Warrior/Attack_1_Left.png"
+        />
+        <img
+          id="warriorAttack_1_Right"
+          src="./assets/enemies/Skeleton_Warrior/Attack_1_Right.png"
+        />
+
+        <img
+          id="warriorAttack_2_Left"
+          src="./assets/enemies/Skeleton_Warrior/Attack_2_Left.png"
+        />
+        <img
+          id="warriorAttack_2_Right"
+          src="./assets/enemies/Skeleton_Warrior/Attack_2_Right.png"
+        />
+
+        <img
+          id="warriorAttack_3_Left"
+          src="./assets/enemies/Skeleton_Warrior/Attack_3_Left.png"
+        />
+        <img
+          id="warriorAttack_3_Right"
+          src="./assets/enemies/Skeleton_Warrior/Attack_3_Right.png"
+        />
+
+        <img
+          id="warriorDeadLeft"
+          src="./assets/enemies/Skeleton_Warrior/Dead_Left.png"
+        />
+        <img
+          id="warriorDeadRight"
+          src="./assets/enemies/Skeleton_Warrior/Dead_Right.png"
+        />
+
+        <img
+          id="warriorHurtLeft"
+          src="./assets/enemies/Skeleton_Warrior/Hurt_Left.png"
+        />
+        <img
+          id="warriorHurtRight"
+          src="./assets/enemies/Skeleton_Warrior/Hurt_Right.png"
+        />
+
+        <img
+          id="warriorIdleLeft"
+          src="./assets/enemies/Skeleton_Warrior/Idle_Left.png"
+        />
+        <img
+          id="warriorIdleRight"
+          src="./assets/enemies/Skeleton_Warrior/Idle_Right.png"
+        />
+
+        <img
+          id="warriorProtectLeft"
+          src="./assets/enemies/Skeleton_Warrior/Protect_Left.png"
+        />
+        <img
+          id="warriorProtectRight"
+          src="./assets/enemies/Skeleton_Warrior/Protect_Right.png"
+        />
+
+        <img
+          id="warriorRunAttackLeft"
+          src="./assets/enemies/Skeleton_Warrior/Run+attack_Left.png"
+        />
+        <img
+          id="warriorRunAttackRight"
+          src="./assets/enemies/Skeleton_Warrior/Run+attack_Right.png"
+        />
+
+        <img
+          id="warriorRunLeft"
+          src="./assets/enemies/Skeleton_Warrior/Run_Left.png"
+        />
+        <img
+          id="warriorRunRight"
+          src="./assets/enemies/Skeleton_Warrior/Run_Right.png"
+        />
+
+        <img
+          id="warriorWalkLeft"
+          src="./assets/enemies/Skeleton_Warrior/Walk_Left.png"
+        />
+        <img
+          id="warriorWalkRight"
+          src="./assets/enemies/Skeleton_Warrior/Walk_Right.png"
+        />
+      </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
