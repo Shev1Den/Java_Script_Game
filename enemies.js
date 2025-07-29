@@ -13,6 +13,8 @@ import { WarriorIdleLeft,
     WarriorHurtLeft, 
     WarriorHurtRight } from "./warriorState.js";
 
+import { states } from "./PlayerState.js";
+
 class Enemy {
     constructor(game) {
         this.game = game;
@@ -61,10 +63,11 @@ export class SkeletonWarrior extends Enemy {
     update(deltaTime) {
         console.log(this.currentState)
         console.log(this.game.player.currentState.state)
-        console.log(this.game.player.currentState.state == 'JUMP_RIGHT')
-        console.log(this.x)
-        console.log(this.game.player.x - this.x)
-        console.log(this.speed)
+        // console.log(this.game.player.currentState.state == 'JUMP_RIGHT')
+        console.log(this.game.player.x - this.x + this.width*1.5)
+        // console.log(this.x)
+        // console.log(this.game.player.x - this.x)
+        // console.log(this.speed)
         // console.log(-((2 * 0.6) * 3))
         // console.log(this.frameX)
         // console.log(this.reverseFrame)
@@ -104,9 +107,9 @@ export class SkeletonWarrior extends Enemy {
 
         if (this.game.player.x < this.x &&
             (
-                this.game.enemies[0].currentState.state == 'ATTACK_1_LEFT' ||
-                this.game.enemies[0].currentState.state == 'ATTACK_2_LEFT' ||
-                this.game.enemies[0].currentState.state == 'ATTACK_3_LEFT'
+                this.game.enemiesExempler[0].currentState.state == 'ATTACK_1_LEFT' ||
+                this.game.enemiesExempler[0].currentState.state == 'ATTACK_2_LEFT' ||
+                this.game.enemiesExempler[0].currentState.state == 'ATTACK_3_LEFT'
             )
         ) {
             if (this.game.player.currentState.state == 'RUN_RIGHT') this.speed = ((2 * 0.6) * this.game.player.speed)
@@ -117,9 +120,9 @@ export class SkeletonWarrior extends Enemy {
 
         if (this.game.player.x > this.x &&
             (
-                this.game.enemies[0].currentState.state == 'ATTACK_1_LEFT' ||
-                this.game.enemies[0].currentState.state == 'ATTACK_2_LEFT' ||
-                this.game.enemies[0].currentState.state == 'ATTACK_3_LEFT'
+                this.game.enemiesExempler[0].currentState.state == 'ATTACK_1_LEFT' ||
+                this.game.enemiesExempler[0].currentState.state == 'ATTACK_2_LEFT' ||
+                this.game.enemiesExempler[0].currentState.state == 'ATTACK_3_LEFT'
             )
         ) {
             if (this.game.player.currentState.state == 'RUN_RIGHT') this.speed = -((2 * 0.6) * this.game.player.speed)
@@ -127,6 +130,8 @@ export class SkeletonWarrior extends Enemy {
             if (this.game.player.currentState.state == 'JUMP_RIGHT') this.speed = -((2 * 0.6) * this.game.player.speed)
             if (this.game.player.currentState.state == 'RUN_ATTACK_RIGHT') this.speed = -((2 * 0.6) * this.game.player.speed)
         }
+
+        this.checkAttack()
  
         if (this.game.player.x < this.x) this.x += -this.speed;
         if (this.game.player.x > this.x) this.x += this.speed;
@@ -140,5 +145,55 @@ export class SkeletonWarrior extends Enemy {
         context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y - this.game.gameMargin * 1.25, this.width*1.5, this.height*1.5)
         context.strokeRect(this.x, this.y - this.game.gameMargin + 40, this.width * 1.5, this.height * 1.1)
 
+    }
+    checkAttack() {
+        const player = this.game.player;
+        const playerStates = states
+
+        if( this.game.player.x < this.x && 
+            this.game.player.y + this.game.player.height >= this.game.height - this.height &&
+            this.game.player.x + this.game.player.width*1.25 - this.x > 50 &&
+            this.game.player.x + this.game.player.width*1.25 - this.x < this.game.player.width*1.25 &&
+            this.currentState.state == 'ATTACK_1_LEFT' &&
+            this.frameX == 3 ||
+            this.game.player.x < this.x && 
+            this.game.player.y + this.game.player.height >= this.game.height - this.height &&
+            this.game.player.x + this.game.player.width*1.25 - this.x > 50 &&
+            this.game.player.x + this.game.player.width*1.25 - this.x < this.game.player.width*1.25 &&
+            this.currentState.state == 'ATTACK_2_LEFT' &&
+            this.frameX == 3 ||
+            this.game.player.x < this.x && 
+            this.game.player.y + this.game.player.height >= this.game.height - this.height &&
+            this.game.player.x + this.game.player.width*1.25 - this.x > 50 &&
+            this.game.player.x + this.game.player.width*1.25 - this.x < this.game.player.width*1.25 &&
+            this.currentState.state == 'ATTACK_3_LEFT' &&
+            this.frameX == 2 
+        ) {
+            this.game.player.setState(playerStates.HURT_RIGHT)
+
+        }
+
+        if( this.game.player.x > this.x && 
+            this.game.player.y + this.game.player.height >= this.game.height - this.height &&
+            this.game.player.x - this.x + this.width*1.5 < 330 &&
+            this.game.player.x - this.x + this.width*1.5 > this.width*1.5 &&
+            this.currentState.state == 'ATTACK_1_RIGHT' &&
+            this.frameX == 1 ||
+            this.game.player.x > this.x && 
+            this.game.player.y + this.game.player.height >= this.game.height - this.height &&
+            this.game.player.x - this.x + this.width*1.5 < 330 &&
+            this.game.player.x - this.x + this.width*1.5 > this.width*1.5 &&
+            this.currentState.state == 'ATTACK_2_RIGHT' &&
+            this.frameX == 2 ||
+            this.game.player.x > this.x && 
+            this.game.player.y + this.game.player.height >= this.game.height - this.height &&
+            this.game.player.x - this.x + this.width*1.5 < 330 &&
+            this.game.player.x - this.x + this.width*1.5 > this.width*1.5 &&
+            this.currentState.state == 'ATTACK_3_RIGHT' &&
+            this.frameX == 1 
+        ) {
+            this.game.player.setState(playerStates.HURT_LEFT)
+
+        }
     }
 }

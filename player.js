@@ -1,5 +1,24 @@
-import { IdleRight, IdleLeft, WalkRight, WalkLeft, RunRight, RunLeft, JumpRight, JumpLeft, Attack1Right, Attack1Left, Attack2Right, Attack2Left, Attack3Right, Attack3Left, RunAttackRight, RunAttackLeft,  } from "./PlayerState.js";
-import { states } from "./warriorState.js";
+import { 
+    IdleRight, 
+    IdleLeft, 
+    WalkRight, 
+    WalkLeft, 
+    RunRight, 
+    RunLeft, 
+    JumpRight, 
+    JumpLeft, 
+    Attack1Right,
+    Attack1Left, 
+    Attack2Right, 
+    Attack2Left, 
+    Attack3Right, 
+    Attack3Left, 
+    RunAttackRight, 
+    RunAttackLeft, 
+    HurtRight, 
+    HurtLeft  } from "./PlayerState.js";
+
+    import { states } from "./warriorState.js";
 
 export class Player {
     constructor(game) {
@@ -12,7 +31,25 @@ export class Player {
         this.frameX = 0;
         this.maxFrame = 7;
         this.reverseFrame = false;
-        this.states = [new IdleRight(game), new IdleLeft(game), new WalkRight(game), new WalkLeft(game), new RunRight(game), new RunLeft(game), new JumpRight(game), new JumpLeft(game), new Attack1Right(game), new Attack1Left(game), new Attack2Right(game), new Attack2Left(game), new Attack3Right(game), new Attack3Left(game), new RunAttackRight(game), new RunAttackLeft(game), ];
+        this.states = [
+            new IdleRight(game), 
+            new IdleLeft(game), 
+            new WalkRight(game), 
+            new WalkLeft(game), 
+            new RunRight(game), 
+            new RunLeft(game), 
+            new JumpRight(game), 
+            new JumpLeft(game), 
+            new Attack1Right(game), 
+            new Attack1Left(game), 
+            new Attack2Right(game), 
+            new Attack2Left(game), 
+            new Attack3Right(game), 
+            new Attack3Left(game), 
+            new RunAttackRight(game), 
+            new RunAttackLeft(game),
+            new HurtRight(game), 
+            new HurtLeft(game) ];
         this.currentState = this.states[0];
         this.image = document.getElementById('playerIdleRight');
         this.speed = 0;
@@ -72,7 +109,7 @@ export class Player {
         this.currentState.enter()
     }
     checkAttack() {
-        const warriorEnemy = this.game.enemies[0];
+        const warriorEnemy = this.game.enemiesExempler[0];
         const warriorStates = states;
 
         if( this.x < warriorEnemy.x && 
@@ -96,7 +133,7 @@ export class Player {
             this.currentState.state == 'RUN_ATTACK_RIGHT' &&
             this.frameX == 4
         ) {
-            this.game.enemies[0].setState(warriorStates.HURT_LEFT)
+            this.game.enemiesExempler[0].setState(warriorStates.HURT_LEFT)
 
         }
 
@@ -121,7 +158,7 @@ export class Player {
             this.currentState.state == 'RUN_ATTACK_LEFT' &&
             this.frameX == 3
         ) {
-            this.game.enemies[0].setState(warriorStates.HURT_RIGHT)
+            this.game.enemiesExempler[0].setState(warriorStates.HURT_RIGHT)
 
         }
     }

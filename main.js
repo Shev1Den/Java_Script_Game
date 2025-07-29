@@ -13,7 +13,8 @@ window.addEventListener('load', () => {
         constructor(width, height){
             this.width = width;
             this.height = height;
-            this.enemies = [new SkeletonWarrior(this)];
+            this.enemiesExempler = [new SkeletonWarrior(this)];
+            this.enemies = []
             this.background = new Background(this)
             this.player = new Player(this)
             this.input = new InputHandler(this)
@@ -27,14 +28,14 @@ window.addEventListener('load', () => {
             this.input.keys.shift();
         }
             this.background.update();
-            this.enemies.forEach((enemy) => {
+            this.enemiesExempler.forEach((enemy) => {
                 enemy.update(deltaTime)
             })
             this.player.update(this.input.keys, deltaTime)
         }
         draw(context) {
             this.background.draw(context)
-            this.enemies.forEach((enemy) => {
+            this.enemiesExempler.forEach((enemy) => {
                 enemy.draw(context)
             })
             this.player.draw(context);

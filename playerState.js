@@ -1,4 +1,4 @@
-const states = {
+export const states = {
     IDLE_RIGHT: 0,
     IDLE_LEFT: 1,
     WALK_RIGHT: 2,
@@ -15,6 +15,8 @@ const states = {
     ATTACK_3_LEFT: 13,
     RUN_ATTACK_RIGHT: 14,
     RUN_ATTACK_LEFT: 15,
+    HURT_RIGHT: 16,
+    HURT_LEFT: 17,
 
 
 }
@@ -375,6 +377,46 @@ export class RunAttackLeft extends State {
         
         if (this.game.player.onGround()) {
             if (this.game.player.frameX === 0) this.game.player.setState(states.RUN_LEFT)
+        }
+    }
+}
+
+export class HurtRight extends State {
+    constructor(game) {
+        super('HURT_RIGHT', game)
+    }
+    enter() {
+        this.game.player.image = document.getElementById('playerHurtRight');
+        this.game.player.reverseFrame = false;
+        this.game.player.maxFrame = 1;
+        this.game.player.frameX = 0;
+        this.game.player.frameInterval = 200;
+        this.game.player.speed = 0;
+    }
+    handleInput(input) {
+        
+        if (this.game.player.onGround()) {
+            if (this.game.player.frameX === this.game.player.maxFrame) this.game.player.setState(states.IDLE_RIGHT)
+        }
+    }
+}
+
+export class HurtLeft extends State {
+    constructor(game) {
+        super('HURT_LEFT', game)
+    }
+    enter() {
+        this.game.player.image = document.getElementById('playerHurtLeft');
+        this.game.player.reverseFrame = true;
+        this.game.player.maxFrame = 1;
+        this.game.player.frameX = this.game.player.maxFrame;
+        this.game.player.frameInterval = 200;
+        this.game.player.speed = 0;
+    }
+    handleInput(input) {
+        
+        if (this.game.player.onGround()) {
+            if (this.game.player.frameX === 0) this.game.player.setState(states.IDLE_LEFT)
         }
     }
 }
