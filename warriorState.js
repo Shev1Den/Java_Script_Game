@@ -1,320 +1,123 @@
-export const states = {
-    IDLE_LEFT: 0,
-    IDLE_RIGHT: 1,
-    RUN_LEFT: 2,
-    RUN_RIGHT: 3,
-    WALK_LEFT: 4,
-    WALK_RIGHT: 5,
-    ATTACK_1_LEFT: 6,
-    ATTACK_1_RIGHT: 7,
-    ATTACK_2_LEFT: 8,
-    ATTACK_2_RIGHT: 9,
-    ATTACK_3_LEFT: 10,
-    ATTACK_3_RIGHT: 11,
-    HURT_LEFT: 12, 
-    HURT_RIGHT: 13,
+export function warriorState(game) {
+    let enemiesWarrior = game.enemiesWarrior;
 
-}
+    enemiesWarrior.forEach((warrior) => {
 
-class State {
-    constructor(state, game) {
-        this.game = game;
-        this.state = state;
-    
-    }
-}
-
-export class WarriorIdleLeft extends State {
-    constructor(game) {
-        super('IDLE_LEFT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorIdleLeft')
-        this.game.enemiesExempler[0].maxFrame = 6;
-        this.game.enemiesExempler[0].frameX = this.game.enemiesExempler[0].maxFrame;
-        this.game.enemiesExempler[0].speed = 0
-        this.game.enemiesExempler[0].reverseFrame = true;
-        this.game.enemiesExempler[0].speed = 0;
-        this.game.enemiesExempler[0].checkIn = true;
-    }
-    handleInput() {
-        if(this.game.enemiesExempler[0].stateTimer >= this.game.enemiesExempler[0].stateInterval) {
-            if(this.game.player.x - this.game.enemiesExempler[0].x > -this.game.player.width*1.25 && this.game.player.x - this.game.enemiesExempler[0].x < 0  && this.game.player.x < this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.ATTACK_1_LEFT)
+        // IdleLeft 
+        if(warrior.state == 'IDLE_LEFT') {
+            if(warrior.stateTimer >= warrior.stateInterval) {
+                    if(game.player.x - warrior.x > -game.player.width*1.25 && game.player.x - warrior.x < 0  && game.player.x < warrior.x) warrior.warriorAttack1Left()
+                }
+            if(game.player.x - warrior.x > -500 && game.player.x - warrior.x < -game.player.width*1.25 && game.player.x < warrior.x) warrior.warriorWalkLeft()
+            if(game.player.x - warrior.x < 500 && game.player.x - warrior.x >  warrior.width && game.player.x > warrior.x) warrior.warriorWalkRight()
+            if(game.player.x - warrior.x < -500 && game.player.x < warrior.x) warrior.warriorRunLeft()
+            if(warrior.HP <= 0) warrior.warriorDeadLeft()
         }
-        if(this.game.player.x - this.game.enemiesExempler[0].x > -500 && this.game.player.x - this.game.enemiesExempler[0].x < -this.game.player.width*1.25 && this.game.player.x < this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.WALK_LEFT)
-        if(this.game.player.x - this.game.enemiesExempler[0].x < 500 && this.game.player.x - this.game.enemiesExempler[0].x >  this.game.enemiesExempler[0].width && this.game.player.x > this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.WALK_RIGHT)
-        if(this.game.player.x - this.game.enemiesExempler[0].x < -500 && this.game.player.x < this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.RUN_LEFT)
 
+        // IdleRight
+        if (warrior.state == 'IDLE_RIGHT') {
+            if(warrior.stateTimer >= warrior.stateInterval) {
+                    if(game.player.x - warrior.x < warrior.width*1.5 && game.player.x - warrior.x > 0  && game.player.x > warrior.x) warrior.warriorAttack1Right()
+                }
+            if(game.player.x - warrior.x > -500 && game.player.x - warrior.x < -warrior.width*1.5 && game.player.x < warrior.x) warrior.warriorWalkLeft()
+            if(game.player.x - warrior.x < 500 && game.player.x - warrior.x >  warrior.width*1.5 && game.player.x > warrior.x) warrior.warriorWalkRight()
+            if(game.player.x - warrior.x > 500 && game.player.x > warrior.x) warrior.warriorRunRight()
+            if(warrior.HP <= 0) warrior.warriorDeadRight()
         }
-   
-}
-
-export class WarriorIdleRight extends State {
-    constructor(game) {
-        super('IDLE_RIGHT', game);
-        this.attackTimeoutSet = false;
-       
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorIdleRight')
-        this.game.enemiesExempler[0].frameX = 0;
-        this.game.enemiesExempler[0].maxFrame = 6;
-        this.game.enemiesExempler[0].reverseFrame = false;
-        this.game.enemiesExempler[0].speed = 0;
-        this.game.enemiesExempler[0].checkIn = false;
         
-
-    }
-    handleInput() {
-        if(this.game.enemiesExempler[0].stateTimer >= this.game.enemiesExempler[0].stateInterval) {
-            if(this.game.player.x - this.game.enemiesExempler[0].x < this.game.enemiesExempler[0].width*1.5 && this.game.player.x - this.game.enemiesExempler[0].x > 0  && this.game.player.x > this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.ATTACK_1_RIGHT)
+        // RunLeft
+        if (warrior.state == 'RUN_LEFT') {
+            if(game.player.x - warrior.x > -500 && game.player.x < warrior.x) warrior.warriorWalkLeft()
+            if(warrior.HP <= 0) warrior.warriorDeadLeft()
         }
-        if(this.game.player.x - this.game.enemiesExempler[0].x > -500 && this.game.player.x - this.game.enemiesExempler[0].x < -this.game.enemiesExempler[0].width*1.5 && this.game.player.x < this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.WALK_LEFT)
-        if(this.game.player.x - this.game.enemiesExempler[0].x < 500 && this.game.player.x - this.game.enemiesExempler[0].x >  this.game.enemiesExempler[0].width*1.5 && this.game.player.x > this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.WALK_RIGHT)
-        if(this.game.player.x - this.game.enemiesExempler[0].x > 500 && this.game.player.x > this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.RUN_RIGHT)
-    }
-}
-
-export class WarriorRunLeft extends State {
-    constructor(game) {
-        super('RUN_LEFT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorRunLeft')
-        this.game.enemiesExempler[0].maxFrame = 7;
-        this.game.enemiesExempler[0].frameX = this.game.enemiesExempler[0].maxFrame;
-        this.game.enemiesExempler[0].reverseFrame = true;
-        this.game.enemiesExempler[0].speed = 2;
-        this.game.enemiesExempler[0].checkIn = false;
-    }
-    handleInput() {
-        if(this.game.player.x - this.game.enemiesExempler[0].x > -500 && this.game.player.x < this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.WALK_LEFT)
-    }
-}
-
-export class WarriorRunRight extends State {
-    constructor(game) {
-        super('RUN_RIGHT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorRunRight')
-        this.game.enemiesExempler[0].maxFrame = 7;
-        this.game.enemiesExempler[0].frameX = 0;
-        this.game.enemiesExempler[0].reverseFrame = false;
-        this.game.enemiesExempler[0].speed = 2;
-        this.game.enemiesExempler[0].checkIn = false;
-
-    }
-    handleInput() {
-        if(this.game.player.x - this.game.enemiesExempler[0].x < 500 && this.game.player.x > this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.WALK_RIGHT)
-    }
-}
-
-export class WarriorWalkLeft extends State {
-    constructor(game) {
-        super('WALK_LEFT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].reverseFrame = true;
-        this.game.enemiesExempler[0].image = document.getElementById('warriorWalkLeft')
-        this.game.enemiesExempler[0].maxFrame = 6;
-        this.game.enemiesExempler[0].frameX = this.game.enemiesExempler[0].maxFrame;
-        this.game.enemiesExempler[0].speed = 1.5;
-        this.game.enemiesExempler[0].checkIn = false;
-    }
-    handleInput() {
-        if(this.game.player.x - this.game.enemiesExempler[0].x < -500 && this.game.player.x < this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.RUN_LEFT)
-        if(this.game.player.x - this.game.enemiesExempler[0].x <= -500 && this.game.player.x > this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.RUN_RIGHT)
-        if(this.game.player.x - this.game.enemiesExempler[0].x > -this.game.player.width*1.25 && this.game.player.x - this.game.enemiesExempler[0].x < 0  && this.game.player.x < this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.ATTACK_1_LEFT)
-        if(this.game.player.x - this.game.enemiesExempler[0].x > 500 && this.game.player.x < this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.WALK_LEFT)
-        if (this.game.player.x - this.game.enemiesExempler[0].x > -500 && this.game.player.x > this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.WALK_RIGHT)
-
+        // RunRight
+        if (warrior.state == 'RUN_RIGHT') {
+            if(game.player.x - warrior.x < 500 && game.player.x > warrior.x) warrior.warriorWalkRight()
+            if(warrior.HP <= 0) warrior.warriorDeadRight()
         }
-}
 
-export class WarriorWalkRight extends State {
-    constructor(game) {
-        super('WALK_RIGHT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorWalkRight')
-        this.game.enemiesExempler[0].maxFrame = 6;
-        this.game.enemiesExempler[0].frameX = 0;
-        this.game.enemiesExempler[0].reverseFrame = false;
-        this.game.enemiesExempler[0].speed = 1.5;
-        this.game.enemiesExempler[0].checkIn = false;
+        // WalkLeft
+        if (warrior.state == 'WALK_LEFT') {
+            if(game.player.x - warrior.x < -500 && game.player.x < warrior.x) warrior.warriorRunLeft()
+            if(game.player.x - warrior.x <= -500 && game.player.x > warrior.x) warrior.warriorRunRight()
+            if(game.player.x - warrior.x > -game.player.width*1.25 && game.player.x - warrior.x < 0  && game.player.x < warrior.x) warrior.warriorAttack1Left()
+            if(game.player.x - warrior.x > 500 && game.player.x < warrior.x) warrior.warriorWalkLeft()
+            if(game.player.x - warrior.x > -500 && game.player.x > warrior.x) warrior.warriorWalkRight()
+            if(warrior.HP <= 0) warrior.warriorDeadLeft()
+            
+        }
 
-    }
-    handleInput() {
-        if(this.game.player.x - this.game.enemiesExempler[0].x < this.game.enemiesExempler[0].width*1.5 && this.game.player.x - this.game.enemiesExempler[0].x > 0  && this.game.player.x > this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.ATTACK_1_RIGHT)
-        if(this.game.player.x - this.game.enemiesExempler[0].x < 500 && this.game.player.x < this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.WALK_LEFT)
-        if (this.game.player.x - this.game.enemiesExempler[0].x < -500 && this.game.player.x > this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.WALK_RIGHT)
-        if(this.game.player.x - this.game.enemiesExempler[0].x > 500 && this.game.player.x > this.game.enemiesExempler[0].x) this.game.enemiesExempler[0].setState(states.RUN_RIGHT)
+        // WalkRight
+        if (warrior.state == 'WALK_RIGHT') {
+            if(game.player.x - warrior.x < warrior.width*1.5 && game.player.x - warrior.x > 0  && game.player.x > warrior.x) warrior.warriorAttack1Right()
+            if(game.player.x - warrior.x < 500 && game.player.x < warrior.x) warrior.warriorWalkLeft()
+            if(game.player.x - warrior.x < -500 && game.player.x > warrior.x) warrior.warriorWalkRight()
+            if(game.player.x - warrior.x > 500 && game.player.x > warrior.x) warrior.warriorRunRight()
+            if(warrior.HP <= 0) warrior.warriorDeadRight()
+        }
+
+        // Attack1Left
+        if (warrior.state == 'ATTACK_1_LEFT') {
+            if (warrior.checkerFrame == 2) warrior.warriorAttack2Left()
+            if(warrior.HP <= 0) warrior.warriorDeadLeft()
+        }
+
+        // Attack1Right
+        if (warrior.state == 'ATTACK_1_RIGHT') {
+            if (warrior.checkerFrame == 1) warrior.warriorAttack2Right()
+            if(warrior.HP <= 0) warrior.warriorDeadRight()
+        }
+
+        // Attack2Left
+        if (warrior.state == 'ATTACK_2_LEFT') {
+            if (warrior.checkerFrame == 2) warrior.warriorAttack3Left()
+            if(warrior.HP <= 0) warrior.warriorDeadLeft()
+        }
+
+        // Attack2Right
+        if (warrior.state == 'ATTACK_2_RIGHT') {
+            if (warrior.checkerFrame == 1) warrior.warriorAttack3Right()
+            if(warrior.HP <= 0) warrior.warriorDeadRight()
+        }
+
+        // Attack3Left
+        if (warrior.state == 'ATTACK_3_LEFT') {
+            if (warrior.checkerFrame == 2) warrior.warriorIdleLeft()
+            if(warrior.HP <= 0) warrior.warriorDeadLeft()
+        }
         
-    }
-}
-
-export class WarriorAttack1Left extends State {
-    constructor(game) {
-        super('ATTACK_1_LEFT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorAttack_1_Left')
-        this.game.enemiesExempler[0].maxFrame = 4;
-        this.game.enemiesExempler[0].frameX = this.game.enemiesExempler[0].maxFrame;
-        this.game.enemiesExempler[0].reverseFrame = true;
-        this.game.enemiesExempler[0].frameX = 0;
-        this.game.enemiesExempler[0].speed = 0
-        this.game.enemiesExempler[0].checkIn = true
-        this.game.enemiesExempler[0].checkerFrame = 0
-
-        
-       
-
-    }
-    handleInput() {
-        if (this.game.enemiesExempler[0].checkerFrame == 2) this.game.enemiesExempler[0].setState(states.ATTACK_2_LEFT)
+        // Attack3Right
+        if (warrior.state == 'ATTACK_3_RIGHT') {
+            if (warrior.checkerFrame == 1) warrior.warriorIdleRight()
+            if(warrior.HP <= 0) warrior.warriorDeadRight()
         }
-   
-}
 
-export class WarriorAttack1Right extends State {
-    constructor(game) {
-        super('ATTACK_1_RIGHT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorAttack_1_Right')
-        this.game.enemiesExempler[0].maxFrame = 4;
-        this.game.enemiesExempler[0].frameX = 0;
-        this.game.enemiesExempler[0].reverseFrame = false;
-        this.game.enemiesExempler[0].speed = 0;
-        this.game.enemiesExempler[0].checkIn = true
-        this.game.enemiesExempler[0].checkerFrame = 0
-    }
-    handleInput() {
-        if (this.game.enemiesExempler[0].checkerFrame == 1) this.game.enemiesExempler[0].setState(states.ATTACK_2_RIGHT)
- 
-    }
-}
-
-export class WarriorAttack2Left extends State {
-    constructor(game) {
-        super('ATTACK_2_LEFT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorAttack_2_Left')
-        this.game.enemiesExempler[0].maxFrame = 5;
-        this.game.enemiesExempler[0].frameX = this.game.enemiesExempler[0].maxFrame;
-        this.game.enemiesExempler[0].reverseFrame = true;
-        this.game.enemiesExempler[0].frameX = 0;
-        this.game.enemiesExempler[0].speed = 0
-        this.game.enemiesExempler[0].checkIn = true
-        this.game.enemiesExempler[0].checkerFrame = 0
-
-    }
-    handleInput() {
-        if (this.game.enemiesExempler[0].checkerFrame == 2) this.game.enemiesExempler[0].setState(states.ATTACK_3_LEFT)
+        // HurtLeft 
+        if (warrior.state == 'HURT_LEFT') {
+            if(warrior.checkerFrame == 1) warrior.warriorIdleLeft()
+            if(warrior.HP <= 0) warrior.warriorDeadLeft()
         }
-   
-}
 
-export class WarriorAttack2Right extends State {
-    constructor(game) {
-        super('ATTACK_2_RIGHT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorAttack_2_Right')
-        this.game.enemiesExempler[0].maxFrame = 5;
-        this.game.enemiesExempler[0].frameX = 0;
-        this.game.enemiesExempler[0].reverseFrame = false;
-        this.game.enemiesExempler[0].speed = 0;
-        this.game.enemiesExempler[0].checkIn = true
-        this.game.enemiesExempler[0].checkerFrame = 0
-
-    }
-    handleInput() {
-        if (this.game.enemiesExempler[0].checkerFrame == 1) this.game.enemiesExempler[0].setState(states.ATTACK_3_RIGHT)
-    }
-}
-
-export class WarriorAttack3Left extends State {
-    constructor(game) {
-        super('ATTACK_3_LEFT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorAttack_3_Left')
-        this.game.enemiesExempler[0].maxFrame = 3;
-        this.game.enemiesExempler[0].frameX = this.game.enemiesExempler[0].maxFrame;
-        this.game.enemiesExempler[0].reverseFrame = true;
-        this.game.enemiesExempler[0].frameX = 0;
-        this.game.enemiesExempler[0].speed = 0
-        this.game.enemiesExempler[0].checkIn = true;
-        this.game.enemiesExempler[0].checkerFrame = 0;
-
-    }
-    handleInput() {
-        if(this.game.enemiesExempler[0].checkerFrame == 2) this.game.enemiesExempler[0].setState(states.IDLE_LEFT)
+        // HurtRight
+        if (warrior.state == 'HURT_RIGHT') {
+            if(warrior.checkerFrame == 1) warrior.warriorIdleRight()
+            if(warrior.HP <= 0) warrior.warriorDeadRight()
         }
-   
-}
 
-export class WarriorAttack3Right extends State {
-    constructor(game) {
-        super('ATTACK_3_RIGHT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorAttack_3_Right')
-        this.game.enemiesExempler[0].maxFrame = 3;
-        this.game.enemiesExempler[0].frameX = 0;
-        this.game.enemiesExempler[0].reverseFrame = false;
-        this.game.enemiesExempler[0].speed = 0;
-        this.game.enemiesExempler[0].checkIn = true
-        this.game.enemiesExempler[0].checkerFrame = 0
-
-    }
-    handleInput() {
-        if(this.game.enemiesExempler[0].checkerFrame == 1) this.game.enemiesExempler[0].setState(states.IDLE_RIGHT)
-    }
-}
-
-export class WarriorHurtLeft extends State {
-    constructor(game) {
-        super('HURT_LEFT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorHurtLeft')
-        this.game.enemiesExempler[0].maxFrame = 1;
-        this.game.enemiesExempler[0].frameX = this.game.enemiesExempler[0].maxFrame;
-        this.game.enemiesExempler[0].reverseFrame = true;
-        this.game.enemiesExempler[0].speed = 0;
-        this.game.enemiesExempler[0].checkIn = true
-        this.game.enemiesExempler[0].checkerFrame = 0
-  
-
-    }
-    handleInput() {
-        if(this.game.enemiesExempler[0].checkerFrame == 1) this.game.enemiesExempler[0].setState(states.IDLE_LEFT)
+        // DeadLeft
+        if (warrior.state == 'DEAD_LEFT') {
+            if(warrior.checkerFrame == 1) enemiesWarrior.forEach((enemyWarrior, index) => {
+                game.player.killed += 1
+                enemyWarrior.dead(index)
+            })
         }
+
+        // DeadRight
+        if (warrior.state == 'DEAD_RIGHT') {
+            if(warrior.checkerFrame == 1) enemiesWarrior.forEach((enemyWarrior, index) => {
+                game.player.killed += 1
+                enemyWarrior.dead(index)
+            })
+        }
+    })
 }
-
-export class WarriorHurtRight extends State {
-    constructor(game) {
-        super('HURT_RIGHT', game);
-    }
-    enter() {
-        this.game.enemiesExempler[0].image = document.getElementById('warriorHurtRight')
-        this.game.enemiesExempler[0].maxFrame = 1;
-        this.game.enemiesExempler[0].frameX = 0;
-        this.game.enemiesExempler[0].reverseFrame = false;
-        this.game.enemiesExempler[0].speed = 0;
-        this.game.enemiesExempler[0].checkIn = true
-        this.game.enemiesExempler[0].checkerFrame = 0
-
-    }
-    handleInput() {
-        if(this.game.enemiesExempler[0].checkerFrame == 1) this.game.enemiesExempler[0].setState(states.IDLE_RIGHT)
-    }
-}
-
-
-

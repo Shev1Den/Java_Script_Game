@@ -16,9 +16,9 @@ import {
     RunAttackRight, 
     RunAttackLeft, 
     HurtRight, 
-    HurtLeft  } from "./PlayerState.js";
-
-    import { states } from "./warriorState.js";
+    HurtLeft,
+    DeadRight,
+    DeadLeft } from "./PlayerState.js";
 
 export class Player {
     constructor(game) {
@@ -49,7 +49,10 @@ export class Player {
             new RunAttackRight(game), 
             new RunAttackLeft(game),
             new HurtRight(game), 
-            new HurtLeft(game) ];
+            new HurtLeft(game),
+            new DeadRight(game),
+            new DeadLeft(game)
+            ];
         this.currentState = this.states[0];
         this.image = document.getElementById('playerIdleRight');
         this.speed = 0;
@@ -59,6 +62,8 @@ export class Player {
         this.fps = 60;
         this.frameInterval = 1000 / this.fps;
         this.frameTimer = 0;
+        this.HP = 50;
+        this.killed = 0;
     }
     update(input, deltaTime) {
         // horizontal movement
@@ -109,57 +114,59 @@ export class Player {
         this.currentState.enter()
     }
     checkAttack() {
-        const warriorEnemy = this.game.enemiesExempler[0];
-        const warriorStates = states;
 
-        if( this.x < warriorEnemy.x && 
-            this.x + this.width*1.25 - warriorEnemy.x > 85 &&
-            this.x + this.width*1.25 - warriorEnemy.x < this.width*1.25 &&
+        this.game.enemiesWarrior.forEach((warrior) => {
+
+        if( this.x < warrior.x && 
+            this.x + this.width*1.25 - warrior.x > 85 &&
+            this.x + this.width*1.25 - warrior.x < this.width*1.25 &&
             this.currentState.state == 'ATTACK_1_RIGHT' &&
             this.frameX == 4 ||
-            this.x < warriorEnemy.x && 
-            this.x + this.width*1.25 - warriorEnemy.x > 85 &&
-            this.x + this.width*1.25 - warriorEnemy.x < this.width*1.25 &&
+            this.x < warrior.x && 
+            this.x + this.width*1.25 - warrior.x > 85 &&
+            this.x + this.width*1.25 - warrior.x < this.width*1.25 &&
             this.currentState.state == 'ATTACK_2_RIGHT' &&
             this.frameX == 2 ||
-            this.x < warriorEnemy.x && 
-            this.x + this.width*1.25 - warriorEnemy.x > 85 &&
-            this.x + this.width*1.25 - warriorEnemy.x < this.width*1.25 &&
+            this.x < warrior.x && 
+            this.x + this.width*1.25 - warrior.x > 85 &&
+            this.x + this.width*1.25 - warrior.x < this.width*1.25 &&
             this.currentState.state == 'ATTACK_3_RIGHT' &&
             this.frameX == 3 ||
-            this.x < warriorEnemy.x && 
-            this.x + this.width*1.25 - warriorEnemy.x > 85 &&
-            this.x + this.width*1.25 - warriorEnemy.x < this.width*1.25 &&
+            this.x < warrior.x && 
+            this.x + this.width*1.25 - warrior.x > 85 &&
+            this.x + this.width*1.25 - warrior.x < this.width*1.25 &&
             this.currentState.state == 'RUN_ATTACK_RIGHT' &&
             this.frameX == 4
         ) {
-            this.game.enemiesExempler[0].setState(warriorStates.HURT_LEFT)
-
+            warrior.warriorHurtLeft();
+            --warrior.HP;
         }
 
-        if( this.x > warriorEnemy.x && 
-            this.x - warriorEnemy.x + warriorEnemy.width*1.5 < 320 &&
-            this.x - warriorEnemy.x + warriorEnemy.width*1.5 > warriorEnemy.width*1.5 &&
+        if( this.x > warrior.x && 
+            this.x - warrior.x + warrior.width*1.5 < 320 &&
+            this.x - warrior.x + warrior.width*1.5 > warrior.width*1.5 &&
             this.currentState.state == 'ATTACK_1_LEFT' &&
             this.frameX == 1 ||
-            this.x > warriorEnemy.x && 
-            this.x - warriorEnemy.x + warriorEnemy.width*1.5 < 320 &&
-            this.x - warriorEnemy.x + warriorEnemy.width*1.5 > warriorEnemy.width*1.5 &&
+            this.x > warrior.x && 
+            this.x - warrior.x + warrior.width*1.5 < 320 &&
+            this.x - warrior.x + warrior.width*1.5 > warrior.width*1.5 &&
             this.currentState.state == 'ATTACK_2_LEFT' &&
             this.frameX == 1 ||
-            this.x > warriorEnemy.x && 
-            this.x - warriorEnemy.x + warriorEnemy.width*1.5 < 320 &&
-            this.x - warriorEnemy.x + warriorEnemy.width*1.5 > warriorEnemy.width*1.5 &&
+            this.x > warrior.x && 
+            this.x - warrior.x + warrior.width*1.5 < 320 &&
+            this.x - warrior.x + warrior.width*1.5 > warrior.width*1.5 &&
             this.currentState.state == 'ATTACK_3_LEFT' &&
             this.frameX == 1 ||
-            this.x > warriorEnemy.x && 
-            this.x - warriorEnemy.x + warriorEnemy.width*1.5 < 320 &&
-            this.x - warriorEnemy.x + warriorEnemy.width*1.5 > warriorEnemy.width*1.5 &&
+            this.x > warrior.x && 
+            this.x - warrior.x + warrior.width*1.5 < 320 &&
+            this.x - warrior.x + warrior.width*1.5 > warrior.width*1.5 &&
             this.currentState.state == 'RUN_ATTACK_LEFT' &&
             this.frameX == 3
         ) {
-            this.game.enemiesExempler[0].setState(warriorStates.HURT_RIGHT)
-
+            warrior.warriorHurtRight()
+            --warrior.HP
         }
+        })
+        
     }
 }

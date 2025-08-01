@@ -17,7 +17,8 @@ export const states = {
     RUN_ATTACK_LEFT: 15,
     HURT_RIGHT: 16,
     HURT_LEFT: 17,
-
+    DEAD_RIGHT: 18,
+    DEAD_LEFT: 19
 
 }
 
@@ -49,6 +50,7 @@ export class IdleRight extends State {
         if (input.includes('D')) this.game.player.setState(states.RUN_RIGHT)
         if (input.includes('A')) this.game.player.setState(states.RUN_RIGHT)
         if(input.includes('a')) this.game.player.setState(states.WALK_LEFT)
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_RIGHT)
 
     }
 }
@@ -73,6 +75,7 @@ export class IdleLeft extends State {
         if (input.includes('D')) this.game.player.setState(states.RUN_RIGHT)
         if (input.includes('A')) this.game.player.setState(states.RUN_LEFT)
         if(input.includes('a')) this.game.player.setState(states.WALK_LEFT)
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_LEFT)
 
     }
 }
@@ -95,7 +98,9 @@ export class WalkRight extends State {
         if (input.includes('s')) this.game.player.setState(states.IDLE_RIGHT)
         if (input.includes('a')) this.game.player.setState(states.WALK_LEFT)
         if (input.includes('D')) this.game.player.setState(states.RUN_RIGHT)
-        if (input.includes('A')) this.game.player.setState(states.RUN_LEFT)      
+        if (input.includes('A')) this.game.player.setState(states.RUN_LEFT)   
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_RIGHT)
+   
     }
 }
 
@@ -118,6 +123,7 @@ export class WalkLeft extends State {
         if (input.includes('d')) this.game.player.setState(states.WALK_RIGHT)
         if (input.includes('D')) this.game.player.setState(states.RUN_RIGHT)
         if (input.includes('A')) this.game.player.setState(states.RUN_LEFT)     
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_LEFT)
 
     }
 }
@@ -142,6 +148,7 @@ export class RunRight extends State {
         if (input.includes('d')) this.game.player.setState(states.WALK_RIGHT)
         if (input.includes('A')) this.game.player.setState(states.RUN_LEFT)
         if (input.includes('a')) this.game.player.setState(states.WALK_LEFT)
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_RIGHT)
 
     }
 }
@@ -167,6 +174,7 @@ export class RunLeft extends State {
         if (input.includes('d')) this.game.player.setState(states.WALK_RIGHT)
         if (input.includes('D')) this.game.player.setState(states.RUN_RIGHT)
         if (input.includes('a')) this.game.player.setState(states.WALK_LEFT)
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_LEFT)
 
     }
 }
@@ -192,6 +200,7 @@ export class JumpRight extends State {
                 if (input.includes('D')) this.game.player.setState(states.RUN_RIGHT)
                 if (input.includes('a')) this.game.player.setState(states.WALK_LEFT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_RIGHT)
     }
 }
 
@@ -216,6 +225,7 @@ export class JumpLeft extends State {
                 if (input.includes('D')) this.game.player.setState(states.RUN_RIGHT)
                 if (input.includes('a')) this.game.player.setState(states.WALK_LEFT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_LEFT)
     }
 }
 
@@ -236,6 +246,7 @@ export class Attack1Right extends State {
             if (this.game.player.frameX === this.game.player.maxFrame && input.includes('f')) this.game.player.setState(states.ATTACK_2_RIGHT)
             if (this.game.player.frameX === this.game.player.maxFrame) this.game.player.setState(states.WALK_RIGHT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_RIGHT)
     }
 }
 
@@ -256,6 +267,7 @@ export class Attack1Left extends State {
             if (this.game.player.frameX  === 0 && input.includes('f')) this.game.player.setState(states.ATTACK_2_LEFT)
             if(this.game.player.frameX === 0) this.game.player.setState(states.WALK_LEFT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_LEFT)
     }
 }
 
@@ -277,6 +289,7 @@ export class Attack2Right extends State {
             if (this.game.player.frameX === this.game.player.maxFrame && input.includes('f')) this.game.player.setState(states.ATTACK_3_RIGHT)
             if(this.game.player.frameX  === this.game.player.maxFrame ) this.game.player.setState(states.WALK_RIGHT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_RIGHT)
     }
 }
 
@@ -298,6 +311,7 @@ export class Attack2Left extends State {
             if (this.game.player.frameX  === 0 && input.includes('f')) this.game.player.setState(states.ATTACK_3_LEFT)
             if(this.game.player.frameX  === 0) this.game.player.setState(states.WALK_LEFT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_LEFT)
     }
 }
 
@@ -318,6 +332,7 @@ export class Attack3Right extends State {
         if (this.game.player.onGround()) {
             if(this.game.player.frameX  === this.game.player.maxFrame ) this.game.player.setState(states.WALK_RIGHT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_RIGHT)
     }
 }
 
@@ -338,6 +353,7 @@ export class Attack3Left extends State {
         if (this.game.player.onGround()) {
             if (this.game.player.frameX === 0) this.game.player.setState(states.WALK_LEFT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_LEFT)
     }
 }
 
@@ -358,6 +374,7 @@ export class RunAttackRight extends State {
         if (this.game.player.onGround()) {
             if (this.game.player.frameX === this.game.player.maxFrame) this.game.player.setState(states.RUN_RIGHT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_RIGHT)
     }
 }
 
@@ -378,6 +395,7 @@ export class RunAttackLeft extends State {
         if (this.game.player.onGround()) {
             if (this.game.player.frameX === 0) this.game.player.setState(states.RUN_LEFT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_LEFT)
     }
 }
 
@@ -398,6 +416,7 @@ export class HurtRight extends State {
         if (this.game.player.onGround()) {
             if (this.game.player.frameX === this.game.player.maxFrame) this.game.player.setState(states.IDLE_RIGHT)
         }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_RIGHT)
     }
 }
 
@@ -417,6 +436,47 @@ export class HurtLeft extends State {
         
         if (this.game.player.onGround()) {
             if (this.game.player.frameX === 0) this.game.player.setState(states.IDLE_LEFT)
+        }
+        if (this.game.player.HP <= 0) this.game.player.setState(states.DEAD_LEFT)
+    }
+}
+
+export class DeadRight extends State {
+    constructor(game) {
+        super('DEAD_RIGHT', game)
+    }
+    enter() {
+        this.game.player.image = document.getElementById('playerDeadRight');
+        this.game.player.reverseFrame = false;
+        this.game.player.maxFrame = 1;
+        this.game.player.frameX = 0;
+        this.game.player.frameInterval = 200;
+        this.game.player.speed = 0;
+    }
+    handleInput(input) {
+        
+        if (this.game.player.onGround()) {
+            if(this.game.player.frameX  === this.game.player.maxFrame ) this.game.gameOver = true
+        }
+    }
+}
+
+export class DeadLeft extends State {
+    constructor(game) {
+        super('DEAD_LEFT', game)
+    }
+    enter() {
+        this.game.player.image = document.getElementById('playerDeadLeft');
+        this.game.player.reverseFrame = true;
+        this.game.player.maxFrame = 1;
+        this.game.player.frameX = this.game.player.maxFrame;
+        this.game.player.frameInterval = 200;
+        this.game.player.speed = 0;
+    }
+    handleInput(input) {
+        
+        if (this.game.player.onGround()) {
+            if(this.game.player.frameX  === 0 ) this.game.gameOver = true
         }
     }
 }
