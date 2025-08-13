@@ -18,13 +18,12 @@ class Enemy {
     }
 }
 
-// Можна загорнути клас у цикл forEach для масиву з енемі
 
-// Зробити замість класів для станів, зробити методи для одного класу SkeletonWarrior 
 
 export class SkeletonWarrior extends Enemy {
     constructor(game) {
         super(game) 
+        this.entity = "SkeletonWarrior"
         this.image = document.getElementById('warriorIdleRight');
         this.frameX = 0;
         this.maxFrame = 6;
@@ -35,6 +34,7 @@ export class SkeletonWarrior extends Enemy {
         this.stateInterval = 2000
         this.stateTimer = 0;
         this.HP = 12;
+        this.deadMarker = true;
 
 
     }
@@ -117,16 +117,15 @@ export class SkeletonWarrior extends Enemy {
  
         if (this.game.player.x < this.x) this.x += -this.speed;
         if (this.game.player.x > this.x) this.x += this.speed;
+
+        if (this.HP < 0) this.HP = 0
         
-    }
-    setState(state) {
-        this.currentState = this.states[state]
-        this.currentState.enter()
     }
     draw(context) { 
         context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y - this.game.gameMargin * 1.25, this.width*1.5, this.height*1.5)
+        if(this.game.gameDevMode) {
         context.strokeRect(this.x, this.y - this.game.gameMargin + 40, this.width * 1.5, this.height * 1.1)
-
+        }
     }
     checkAttack() {
         const playerStates = states
@@ -180,10 +179,17 @@ export class SkeletonWarrior extends Enemy {
     }
 
     dead(index) {
-        if(this.state == 'DEAD_LEFT' || this.state == 'DEAD_RIGHT') {
-            this.game.enemiesWarrior.splice(index, 1)
+        if (this.deadMarker) {
+            if (this.state == 'DEAD_LEFT' || this.state == 'DEAD_RIGHT') {
+                this.deadMarker = false
+                this.game.enemies.splice(index, 1)
+                this.game.player.killed += 1
+            }
         }
     }
+
+//////////////////////////////////////////////////////////// WARRIOR_STATES ///////////////////////////////////////////////////////////////////////////////
+
 
     warriorIdleLeft() {
         this.state = "IDLE_LEFT"
@@ -380,308 +386,6 @@ export class SkeletonWarrior extends Enemy {
 }
 
 
-//////////////////////////////////////////////////////////// WARRIOR_STATES ///////////////////////////////////////////////////////////////////////////////
-
-
-
-class State {
-    constructor(state, game) {
-        this.state = state;
-    
-    }
-}
-
-export class WarriorIdleLeft extends State {
-    constructor(game) {
-        super('IDLE_LEFT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorIdleLeft')
-        this.maxFrame = 6;
-        this.frameX = this.maxFrame;
-        this.speed = 0;
-        this.reverseFrame = true;
-        this.speed = 0;
-        this.checkIn = true;
-    }
-    handleInput() {
-        if(this.stateTimer >= this.stateInterval) {
-            if(this.game.player.x - this.x > -this.game.player.width*1.25 && this.game.player.x - this.x < 0  && this.game.player.x < this.x) this.setState(states.ATTACK_1_LEFT)
-        }
-        if(this.game.player.x - this.x > -500 && this.game.player.x - this.x < -this.game.player.width*1.25 && this.game.player.x < this.x) this.setState(states.WALK_LEFT)
-        if(this.game.player.x - this.x < 500 && this.game.player.x - this.x >  this.width && this.game.player.x > this.x) this.setState(states.WALK_RIGHT)
-        if(this.game.player.x - this.x < -500 && this.game.player.x < this.x) this.setState(states.RUN_LEFT)
-
-        }
-   
-}
-
-export class WarriorIdleRight extends State {
-    constructor(game) {
-        super('IDLE_RIGHT', game);
-        this.attackTimeoutSet = false;
-       
-    }
-    enter() {
-        this.image = document.getElementById('warriorIdleRight')
-        this.frameX = 0;
-        this.maxFrame = 6;
-        this.reverseFrame = false;
-        this.speed = 0;
-        this.checkIn = false;
-        
-
-    }
-    handleInput() {
-        if(this.stateTimer >= this.stateInterval) {
-            if(this.game.player.x - this.x < this.width*1.5 && this.game.player.x - this.x > 0  && this.game.player.x > this.x) this.setState(states.ATTACK_1_RIGHT)
-        }
-        if(this.game.player.x - this.x > -500 && this.game.player.x - this.x < -this.width*1.5 && this.game.player.x < this.x) this.setState(states.WALK_LEFT)
-        if(this.game.player.x - this.x < 500 && this.game.player.x - this.x >  this.width*1.5 && this.game.player.x > this.x) this.setState(states.WALK_RIGHT)
-        if(this.game.player.x - this.x > 500 && this.game.player.x > this.x) this.setState(states.RUN_RIGHT)
-    }
-}
-
-export class WarriorRunLeft extends State {
-    constructor(game) {
-        super('RUN_LEFT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorRunLeft')
-        this.maxFrame = 7;
-        this.frameX = this.maxFrame;
-        this.reverseFrame = true;
-        this.speed = 2;
-        this.checkIn = false;
-    }
-    handleInput() {
-        if(this.game.player.x - this.x > -500 && this.game.player.x < this.x) this.setState(states.WALK_LEFT)
-    }
-}
-
-export class WarriorRunRight extends State {
-    constructor(game) {
-        super('RUN_RIGHT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorRunRight')
-        this.maxFrame = 7;
-        this.frameX = 0;
-        this.reverseFrame = false;
-        this.speed = 2;
-        this.checkIn = false;
-
-    }
-    handleInput() {
-        if(this.game.player.x - this.x < 500 && this.game.player.x > this.x) this.setState(states.WALK_RIGHT)
-    }
-}
-
-export class WarriorWalkLeft extends State {
-    constructor(game) {
-        super('WALK_LEFT', game);
-    }
-    enter() {
-        this.reverseFrame = true;
-        this.image = document.getElementById('warriorWalkLeft')
-        this.maxFrame = 6;
-        this.frameX = this.maxFrame;
-        this.speed = 1.5;
-        this.checkIn = false;
-    }
-    handleInput() {
-        if(this.game.player.x - this.x < -500 && this.game.player.x < this.x) this.setState(states.RUN_LEFT)
-        if(this.game.player.x - this.x <= -500 && this.game.player.x > this.x) this.setState(states.RUN_RIGHT)
-        if(this.game.player.x - this.x > -this.game.player.width*1.25 && this.game.player.x - this.x < 0  && this.game.player.x < this.x) this.setState(states.ATTACK_1_LEFT)
-        if(this.game.player.x - this.x > 500 && this.game.player.x < this.x) this.setState(states.WALK_LEFT)
-        if (this.game.player.x - this.x > -500 && this.game.player.x > this.x) this.setState(states.WALK_RIGHT)
-
-        }
-}
-
-export class WarriorWalkRight extends State {
-    constructor(game) {
-        super('WALK_RIGHT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorWalkRight')
-        this.maxFrame = 6;
-        this.frameX = 0;
-        this.reverseFrame = false;
-        this.speed = 1.5;
-        this.checkIn = false;
-
-    }
-    handleInput() {
-        if(this.game.player.x - this.x < this.width*1.5 && this.game.player.x - this.x > 0  && this.game.player.x > this.x) this.setState(states.ATTACK_1_RIGHT)
-        if(this.game.player.x - this.x < 500 && this.game.player.x < this.x) this.setState(states.WALK_LEFT)
-        if (this.game.player.x - this.x < -500 && this.game.player.x > this.x) this.setState(states.WALK_RIGHT)
-        if(this.game.player.x - this.x > 500 && this.game.player.x > this.x) this.setState(states.RUN_RIGHT)
-        
-    }
-}
-
-export class WarriorAttack1Left extends State {
-    constructor(game) {
-        super('ATTACK_1_LEFT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorAttack_1_Left')
-        this.maxFrame = 4;
-        this.frameX = this.maxFrame;
-        this.reverseFrame = true;
-        this.frameX = 0;
-        this.speed = 0
-        this.checkIn = true
-        this.checkerFrame = 0
-
-        
-       
-
-    }
-    handleInput() {
-        if (this.checkerFrame == 2) this.setState(states.ATTACK_2_LEFT)
-        }
-   
-}
-
-export class WarriorAttack1Right extends State {
-    constructor(game) {
-        super('ATTACK_1_RIGHT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorAttack_1_Right')
-        this.maxFrame = 4;
-        this.frameX = 0;
-        this.reverseFrame = false;
-        this.speed = 0;
-        this.checkIn = true
-        this.checkerFrame = 0
-    }
-    handleInput() {
-        if (this.checkerFrame == 1) this.setState(states.ATTACK_2_RIGHT)
- 
-    }
-}
-
-export class WarriorAttack2Left extends State {
-    constructor(game) {
-        super('ATTACK_2_LEFT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorAttack_2_Left')
-        this.maxFrame = 5;
-        this.frameX = this.maxFrame;
-        this.reverseFrame = true;
-        this.frameX = 0;
-        this.speed = 0
-        this.checkIn = true
-        this.checkerFrame = 0
-
-    }
-    handleInput() {
-        if (this.checkerFrame == 2) this.setState(states.ATTACK_3_LEFT)
-        }
-   
-}
-
-export class WarriorAttack2Right extends State {
-    constructor(game) {
-        super('ATTACK_2_RIGHT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorAttack_2_Right')
-        this.maxFrame = 5;
-        this.frameX = 0;
-        this.reverseFrame = false;
-        this.speed = 0;
-        this.checkIn = true
-        this.checkerFrame = 0
-
-    }
-    handleInput() {
-        if (this.checkerFrame == 1) this.setState(states.ATTACK_3_RIGHT)
-    }
-}
-
-export class WarriorAttack3Left extends State {
-    constructor(game) {
-        super('ATTACK_3_LEFT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorAttack_3_Left')
-        this.maxFrame = 3;
-        this.frameX = this.maxFrame;
-        this.reverseFrame = true;
-        this.frameX = 0;
-        this.speed = 0
-        this.checkIn = true;
-        this.checkerFrame = 0;
-
-    }
-    handleInput() {
-        if(this.checkerFrame == 2) this.setState(states.IDLE_LEFT)
-        }
-   
-}
-
-export class WarriorAttack3Right extends State {
-    constructor(game) {
-        super('ATTACK_3_RIGHT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorAttack_3_Right')
-        this.maxFrame = 3;
-        this.frameX = 0;
-        this.reverseFrame = false;
-        this.speed = 0;
-        this.checkIn = true
-        this.checkerFrame = 0
-
-    }
-    handleInput() {
-        if(this.checkerFrame == 1) this.setState(states.IDLE_RIGHT)
-    }
-}
-
-export class WarriorHurtLeft extends State {
-    constructor(game) {
-        super('HURT_LEFT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorHurtLeft')
-        this.maxFrame = 1;
-        this.frameX = this.maxFrame;
-        this.reverseFrame = true;
-        this.speed = 0;
-        this.checkIn = true
-        this.checkerFrame = 0
-  
-
-    }
-    handleInput() {
-        if(this.checkerFrame == 1) this.setState(states.IDLE_LEFT)
-        }
-}
-
-export class WarriorHurtRight extends State {
-    constructor(game) {
-        super('HURT_RIGHT', game);
-    }
-    enter() {
-        this.image = document.getElementById('warriorHurtRight')
-        this.maxFrame = 1;
-        this.frameX = 0;
-        this.reverseFrame = false;
-        this.speed = 0;
-        this.checkIn = true
-        this.checkerFrame = 0
-
-    }
-    handleInput() {
-        if(this.checkerFrame == 1) this.setState(states.IDLE_RIGHT)
-    }
-}
 
 
 

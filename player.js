@@ -100,11 +100,15 @@ export class Player {
             }
           
         } else this.frameTimer += deltaTime
+
+        if(input.includes('t')) this.game.gameDevMode = !this.game.gameDevMode
         this.checkAttack()
     }
     draw(context) {
         context.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y - this.game.gameMargin, this.width*1.25, this.height*1.25)
+        if(this.game.gameDevMode) {
         context.strokeRect(this.x, this.y - this.game.gameMargin + 40, this.width * 1.25, this.height * 1.1)
+        }
     }
     onGround() {
         return this.y >= this.game.height - this.height 
@@ -115,57 +119,104 @@ export class Player {
     }
     checkAttack() {
 
-        this.game.enemiesWarrior.forEach((warrior) => {
+        this.game.enemies.forEach((enemy) => {
 
-        if( this.x < warrior.x && 
-            this.x + this.width*1.25 - warrior.x > 85 &&
-            this.x + this.width*1.25 - warrior.x < this.width*1.25 &&
+        if( this.x < enemy.x && 
+            this.x + this.width*1.25 - enemy.x > 85 &&
+            this.x + this.width*1.25 - enemy.x < this.width*1.25 &&
             this.currentState.state == 'ATTACK_1_RIGHT' &&
             this.frameX == 4 ||
-            this.x < warrior.x && 
-            this.x + this.width*1.25 - warrior.x > 85 &&
-            this.x + this.width*1.25 - warrior.x < this.width*1.25 &&
+            this.x < enemy.x && 
+            this.x + this.width*1.25 - enemy.x > 85 &&
+            this.x + this.width*1.25 - enemy.x < this.width*1.25 &&
             this.currentState.state == 'ATTACK_2_RIGHT' &&
             this.frameX == 2 ||
-            this.x < warrior.x && 
-            this.x + this.width*1.25 - warrior.x > 85 &&
-            this.x + this.width*1.25 - warrior.x < this.width*1.25 &&
+            this.x < enemy.x && 
+            this.x + this.width*1.25 - enemy.x > 85 &&
+            this.x + this.width*1.25 - enemy.x < this.width*1.25 &&
             this.currentState.state == 'ATTACK_3_RIGHT' &&
-            this.frameX == 3 ||
-            this.x < warrior.x && 
-            this.x + this.width*1.25 - warrior.x > 85 &&
-            this.x + this.width*1.25 - warrior.x < this.width*1.25 &&
+            this.frameX == 3
+        ) {
+            if(enemy.entity == "SkeletonWarrior") {
+                enemy.warriorHurtLeft()
+                --enemy.HP
+            }
+            if (enemy.entity == "SkeletonSpearman") {
+                enemy.spearmanHurtLeft()
+                --enemy.HP
+            }
+            if (enemy.entity == "SkeletonArcher") {
+                enemy.archerHurtLeft()
+                --enemy.HP
+            }
+        } else if (
+            this.x < enemy.x && 
+            this.x + this.width*1.25 - enemy.x > 85 &&
+            this.x + this.width*1.25 - enemy.x < this.width*1.25 &&
             this.currentState.state == 'RUN_ATTACK_RIGHT' &&
             this.frameX == 4
         ) {
-            warrior.warriorHurtLeft();
-            --warrior.HP;
-        }
+                if(enemy.entity == "SkeletonWarrior") {
+                    enemy.warriorHurtLeft()
+                    enemy.HP -= 3
+                }
+                if (enemy.entity == "SkeletonSpearman") {
+                    enemy.spearmanHurtLeft()
+                    enemy.HP -= 3
+                }
+                if (enemy.entity == "SkeletonArcher") {
+                    enemy.archerHurtLeft()
+                    enemy.HP -= 3
+                }
+            }
 
-        if( this.x > warrior.x && 
-            this.x - warrior.x + warrior.width*1.5 < 320 &&
-            this.x - warrior.x + warrior.width*1.5 > warrior.width*1.5 &&
+        if( this.x > enemy.x && 
+            this.x - enemy.x + enemy.width*1.5 < 320 &&
+            this.x - enemy.x + enemy.width*1.5 > enemy.width*1.5 &&
             this.currentState.state == 'ATTACK_1_LEFT' &&
             this.frameX == 1 ||
-            this.x > warrior.x && 
-            this.x - warrior.x + warrior.width*1.5 < 320 &&
-            this.x - warrior.x + warrior.width*1.5 > warrior.width*1.5 &&
+            this.x > enemy.x && 
+            this.x - enemy.x + enemy.width*1.5 < 320 &&
+            this.x - enemy.x + enemy.width*1.5 > enemy.width*1.5 &&
             this.currentState.state == 'ATTACK_2_LEFT' &&
             this.frameX == 1 ||
-            this.x > warrior.x && 
-            this.x - warrior.x + warrior.width*1.5 < 320 &&
-            this.x - warrior.x + warrior.width*1.5 > warrior.width*1.5 &&
+            this.x > enemy.x && 
+            this.x - enemy.x + enemy.width*1.5 < 320 &&
+            this.x - enemy.x + enemy.width*1.5 > enemy.width*1.5 &&
             this.currentState.state == 'ATTACK_3_LEFT' &&
-            this.frameX == 1 ||
-            this.x > warrior.x && 
-            this.x - warrior.x + warrior.width*1.5 < 320 &&
-            this.x - warrior.x + warrior.width*1.5 > warrior.width*1.5 &&
-            this.currentState.state == 'RUN_ATTACK_LEFT' &&
-            this.frameX == 3
+            this.frameX == 1
         ) {
-            warrior.warriorHurtRight()
-            --warrior.HP
-        }
+            if(enemy.entity == "SkeletonWarrior") {
+                enemy.warriorHurtRight()
+                --enemy.HP
+            }
+            if (enemy.entity == "SkeletonSpearman") {
+                enemy.spearmanHurtRight()
+                --enemy.HP
+            }
+            if (enemy.entity == "SkeletonArcher") {
+                enemy.archerHurtRight()
+                --enemy.HP
+            }
+        } else if (
+            this.x > enemy.x && 
+            this.x - enemy.x + enemy.width*1.5 < 320 &&
+            this.x - enemy.x + enemy.width*1.5 > enemy.width*1.5 &&
+            this.currentState.state == 'RUN_ATTACK_LEFT' &&
+            this.frameX == 3) {
+                if(enemy.entity == "SkeletonWarrior") {
+                enemy.warriorHurtRight()
+                enemy.HP -= 3
+            }
+            if (enemy.entity == "SkeletonSpearman") {
+                enemy.spearmanHurtRight()
+                enemy.HP -= 3
+            }
+            if (enemy.entity == "SkeletonArcher") {
+                enemy.archerHurtRight()
+                enemy.HP -= 3
+            }
+            }
         })
         
     }
